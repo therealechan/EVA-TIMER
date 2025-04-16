@@ -1,0 +1,11 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "pnpm build",
+  "installCommand": "pnpm install",
+  "outputDirectory": ".next",
+  "regions": ["all"],
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ],
+  "cleanUrls": true
+} 
