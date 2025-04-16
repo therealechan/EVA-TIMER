@@ -228,4 +228,14 @@ button.disabled .power-system div:nth-child(3) {
 }
 .brank-area {
   grid-column-start: 4;
+}
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: "Open Sans", "Sawarabi Mincho";
+  background-color: black;
+  color: red;
+  font-size: 2rem;
 } 
