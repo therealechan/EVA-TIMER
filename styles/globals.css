@@ -517,4 +517,50 @@ button.disabled .power-system div:nth-child(3) {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+/* Footer styles */
+.eva-footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 4px 8px;
+  z-index: 10;
+  font-family: "Open Sans", "Sawarabi Mincho";
+  font-size: 0.65rem;
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.eva-footer:hover {
+  opacity: 0.7;
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.footer-link {
+  color: #FFD700;
+  text-decoration: none;
+}
+
+.terminal-cursor {
+  color: #FFD700;
+  animation: blink 1s step-end infinite;
+}
+
+.rebuild-note {
+  color: #FF4500;
+  font-size: 0.55rem;
+  opacity: 0.8;
+  margin-left: 4px;
+  font-style: italic;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 } 
