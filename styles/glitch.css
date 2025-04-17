@@ -1,4 +1,4 @@
-/* Glitch effect styles for EVA Timer */
+/* Glitch effect styles for EVA Pomodoro */
 
 /* Main glitch effect for text */
 .glitch {
@@ -182,6 +182,80 @@
 .flicker {
   animation: flicker 0.3s infinite;
   opacity: calc(0.8 * var(--noise-intensity, 1));
+}
+
+/* Responsive styles for mobile devices */
+@media screen and (max-width: 768px) {
+  /* Reduce animation complexity for better performance */
+  .mobile-view .glitch {
+    animation-duration: 2s;
+  }
+  
+  .mobile-view .glitch::before,
+  .mobile-view .glitch::after {
+    animation-duration: 8s;
+  }
+  
+  /* Reduce scanline opacity on mobile */
+  .mobile-view .scanlines {
+    opacity: calc(0.1 * var(--noise-intensity, 1));
+    background-size: 100% 6px;
+  }
+  
+  .mobile-view .h-scanlines {
+    opacity: calc(0.03 * var(--noise-intensity, 1));
+    background-size: 12px 100%;
+  }
+  
+  /* Simplify noise on mobile */
+  .mobile-view .noise {
+    opacity: calc(0.06 * var(--noise-intensity, 1));
+    animation-duration: 0.5s;
+  }
+  
+  .mobile-view .tv-static {
+    opacity: calc(0.02 * var(--noise-intensity, 1));
+    animation-duration: 0.2s;
+  }
+  
+  /* Even in emergency mode, reduce intensity on mobile */
+  .mobile-view.emergency .glitch {
+    animation-duration: 1s;
+  }
+}
+
+/* Even smaller screens - further optimizations */
+@media screen and (max-width: 480px) {
+  .mobile-view .scanlines {
+    opacity: calc(0.05 * var(--noise-intensity, 1));
+    animation-duration: 15s;
+  }
+  
+  .mobile-view .h-scanlines {
+    display: none; /* Remove horizontal scanlines on very small devices */
+  }
+  
+  .mobile-view .noise {
+    opacity: calc(0.04 * var(--noise-intensity, 1));
+  }
+}
+
+/* Very small screens - adjust glitch for compact text */
+@media screen and (max-width: 380px) {
+  .mobile-view .glitch::before,
+  .mobile-view .glitch::after {
+    letter-spacing: -0.05em;
+  }
+  
+  /* Adjust glitch animations for compact text */
+  .mobile-view .control button .glitch {
+    animation-duration: 3s;
+  }
+  
+  .mobile-view .control button .glitch::before,
+  .mobile-view .control button .glitch::after {
+    animation-duration: 10s;
+  }
 }
 
 /* Animations */

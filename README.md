@@ -1,6 +1,6 @@
-# EVA TIMER
+# EVA POMODORO
 
-A countdown timer inspired by Evangelion
+A pomodoro timer inspired by Evangelion
 
 ![screenshot](./public/screenshot.png)
 
@@ -47,13 +47,13 @@ You can set up the timer with the URL query parameter.
 12 minutes timer:
 
 ```
-https://yourdomain.com/?time=12
+https://eva.0xechan.xyz/?time=12
 ```
 
 stopwatch mode:
 
 ```
-https://yourdomain.com/?stopwatch
+https://eva.0xechan.xyz/?stopwatch
 ```
 
 ### Control Buttons
@@ -81,6 +81,26 @@ The timer includes a visual glitch effect inspired by the Evangelion anime serie
 
 These effects enhance the Evangelion aesthetic and add to the immersive experience.
 
+### SEO Optimization
+
+This project includes several SEO optimizations:
+
+- Rich metadata for improved search engine visibility
+- Open Graph tags for better social media sharing
+- Twitter Card support for Twitter sharing
+- Semantic HTML structure with proper accessibility
+- Schema.org structured data for enhanced search results
+- Proper title and description tags
+- Sitemap.xml and robots.txt for improved crawling
+
+### Analytics
+
+The project uses Google Analytics to track usage data:
+
+- Pageviews and user sessions tracking
+- User interaction analytics
+- Performance monitoring
+
 ## Author
 
 [Hagi](https://github.com/iPolyomino)
@@ -89,3 +109,9 @@ These effects enhance the Evangelion aesthetic and add to the immersive experien
 
 - https://torinak.com/7segment
 - https://fonts.google.com/
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+Copyright (c) 2020 [Hagi](https://github.com/iPolyomino)

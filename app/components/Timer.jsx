@@ -13,6 +13,8 @@ export default function Timer() {
   const [noiseIntensity, setNoiseIntensity] = useState(1);
   const [activeTimer, setActiveTimer] = useState('normal'); // 'slow', 'normal', 'racing'
   const [isLastMinute, setIsLastMinute] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(false);
+  const [isVerySmallScreen, setIsVerySmallScreen] = useState(false);
   
   const timeRef = useRef(5 * 60 * 1000);
   const remainingTimeRef = useRef(null);
@@ -25,6 +27,18 @@ export default function Timer() {
   const searchParams = useSearchParams();
   
   useEffect(() => {
+    // Check if the device is a mobile or small screen
+    const checkMobileView = () => {
+      setIsMobileView(window.innerWidth <= 768);
+      setIsVerySmallScreen(window.innerWidth <= 380);
+    };
+    
+    // Initial check
+    checkMobileView();
+    
+    // Add event listener for resize
+    window.addEventListener('resize', checkMobileView);
+    
     // Initialize timer based on URL parameters
     const timeParam = parseFloat(searchParams.get('time'), 10);
     const isNumber = (value) => typeof value === 'number' && isFinite(value);
@@ -65,14 +79,19 @@ export default function Timer() {
       if (noiseTimeoutRef.current) {
         clearTimeout(noiseTimeoutRef.current);
       }
+      window.removeEventListener('resize', checkMobileView);
     };
   }, [searchParams]);
   
   // Set up random noise intensity changes
   const setupNoiseIntensity = () => {
     const changeNoiseIntensity = () => {
-      // Randomly change noise intensity between 0.8 and 1.5
-      const intensity = 0.8 + Math.random() * 0.7;
+      // Reduce intensity on mobile to improve performance
+      const baseIntensity = isMobileView ? 0.6 : 0.8;
+      const maxIntensity = isMobileView ? 1.0 : 1.5;
+      
+      // Randomly change noise intensity
+      const intensity = baseIntensity + Math.random() * (maxIntensity - baseIntensity);
       setNoiseIntensity(intensity);
       
       // Schedule next change
@@ -94,8 +113,8 @@ export default function Timer() {
         setShowGlitch(false);
       }, 150);
       
-      // Schedule next glitch
-      const nextGlitchTime = Math.random() * 10000 + 3000; // Random time between 3-13 seconds
+      // Schedule next glitch - less frequent on mobile for better performance
+      const nextGlitchTime = Math.random() * (isMobileView ? 15000 : 10000) + (isMobileView ? 5000 : 3000);
       glitchTimeoutRef.current = setTimeout(triggerGlitch, nextGlitchTime);
     };
     
@@ -267,8 +286,25 @@ export default function Timer() {
   // Border style for emergency mode
   const borderStyle = isLastMinute ? { borderColor: '#FF0000' } : {};
   
+  // Additional class for mobile view
+  const mobileClass = isMobileView ? 'mobile-view' : '';
+  
+  // Format button text based on screen size
+  const formatButtonText = (text) => {
+    if (isVerySmallScreen) {
+      // Remove spaces for very small screens
+      return text.replace(/ /g, '');
+    } else if (isMobileView) {
+      // Reduce spacing for mobile
+      return text;
+    } else {
+      // Keep the original spaced format for larger screens
+      return text;
+    }
+  };
+  
   return (
-    <div className={`timer ${isLastMinute ? 'emergency' : ''}`} style={timerStyle}>
+    <div className={`timer ${isLastMinute ? 'emergency' : ''} ${mobileClass}`} style={timerStyle}>
       {/* Glitch effect overlays */}
       <div className={`screen-glitch ${showGlitch ? 'flicker' : ''}`}></div>
       <div className="scanlines"></div>
@@ -334,8 +370,8 @@ export default function Timer() {
           onClick={toggleStartStopAction}
           style={borderStyle}
         >
-          <div className={showGlitch ? 'glitch' : ''} data-text={isRunning ? "S T O P" : "S T A R T"}>
-            {isRunning ? "S T O P" : "S T A R T"}
+          <div className={showGlitch ? 'glitch' : ''} data-text={isRunning ? (isVerySmallScreen ? "STOP" : "S T O P") : (isVerySmallScreen ? "START" : "S T A R T")}>
+            {isRunning ? formatButtonText("S T O P") : formatButtonText("S T A R T")}
           </div>
           <div></div>
         </button>
@@ -345,7 +381,9 @@ export default function Timer() {
           onClick={setSlowTimer}
           style={borderStyle}
         >
-          <div className={showGlitch ? 'glitch' : ''} data-text="S L O W">S L O W</div>
+          <div className={showGlitch ? 'glitch' : ''} data-text={isVerySmallScreen ? "SLOW" : "S L O W"}>
+            {formatButtonText("S L O W")}
+          </div>
           <div></div>
         </button>
         <button 
@@ -354,7 +392,9 @@ export default function Timer() {
           onClick={setNormalTimer}
           style={borderStyle}
         >
-          <div className={showGlitch ? 'glitch' : ''} data-text="N O R M A L">N O R M A L</div>
+          <div className={showGlitch ? 'glitch' : ''} data-text={isVerySmallScreen ? "NORMAL" : "N O R M A L"}>
+            {formatButtonText("N O R M A L")}
+          </div>
           <div></div>
         </button>
         <button 
@@ -363,7 +403,9 @@ export default function Timer() {
           onClick={setRacingTimer}
           style={borderStyle}
         >
-          <div className={showGlitch ? 'glitch' : ''} data-text="R A C I N G">R A C I N G</div>
+          <div className={showGlitch ? 'glitch' : ''} data-text={isVerySmallScreen ? "RACING" : "R A C I N G"}>
+            {formatButtonText("R A C I N G")}
+          </div>
           <div></div>
         </button>
       </div>
