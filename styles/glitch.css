@@ -27,6 +27,21 @@
   animation: glitch-anim2 2s infinite linear alternate-reverse;
 }
 
+/* Emergency mode glitch effects - more intense */
+.emergency .glitch {
+  animation: glitch-skew 0.5s infinite linear alternate-reverse;
+}
+
+.emergency .glitch::before {
+  color: #ff3333;
+  animation: glitch-anim-emergency 2s infinite linear alternate-reverse;
+}
+
+.emergency .glitch::after {
+  color: #cc0000;
+  animation: glitch-anim2-emergency 1s infinite linear alternate-reverse;
+}
+
 /* Screen glitch overlay */
 .screen-glitch {
   position: fixed;
@@ -39,6 +54,12 @@
   mix-blend-mode: overlay;
   opacity: 0;
   background: rgba(255, 215, 0, 0.2);
+  transition: background 0.5s ease, opacity 0.5s ease;
+}
+
+/* Emergency screen glitch - red tint */
+.emergency .screen-glitch {
+  background: rgba(255, 0, 0, 0.3);
 }
 
 /* CRT screen effect */
@@ -75,6 +96,16 @@
   );
   background-size: 100% 4px;
   animation: scanline-scroll 10s linear infinite;
+  transition: background 0.5s ease;
+}
+
+/* Emergency mode scanlines */
+.emergency .scanlines {
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(255, 0, 0, 0.5) 51%
+  );
 }
 
 /* Additional horizontal scanlines */
@@ -93,6 +124,16 @@
     rgba(255, 215, 0, 0.3) 51%
   );
   background-size: 8px 100%;
+  transition: background 0.5s ease;
+}
+
+/* Emergency horizontal scanlines */
+.emergency .h-scanlines {
+  background: linear-gradient(
+    to right,
+    transparent 50%,
+    rgba(255, 0, 0, 0.3) 51%
+  );
 }
 
 /* Noise overlay - enhanced */
@@ -123,6 +164,16 @@
   background-image: repeating-radial-gradient(
     circle at 17% 32%,
     rgb(255, 215, 0, 0.5),
+    rgba(0, 0, 0, 0.03) 0.5px
+  );
+  transition: background-image 0.5s ease;
+}
+
+/* Emergency mode TV static */
+.emergency .tv-static {
+  background-image: repeating-radial-gradient(
+    circle at 17% 32%,
+    rgb(255, 0, 0, 0.5),
     rgba(0, 0, 0, 0.03) 0.5px
   );
 }
@@ -249,5 +300,56 @@
   }
   100% {
     background-size: 100% 100%;
+  }
+}
+
+/* Emergency mode animations */
+@keyframes glitch-anim-emergency {
+  0% {
+    clip-path: polygon(0 0%, 100% 0%, 100% 5%, 0 5%);
+    transform: translate(-4px);
+  }
+  20% {
+    clip-path: polygon(0 15%, 100% 15%, 100% 15%, 0 15%);
+    transform: translate(-8px);
+  }
+  40% {
+    clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%);
+    transform: translate(8px);
+  }
+  60% {
+    clip-path: polygon(0 80%, 100% 80%, 100% 80%, 0 80%);
+    transform: translate(8px);
+  }
+  80% {
+    clip-path: polygon(0 50%, 100% 50%, 100% 55%, 0 55%);
+    transform: translate(-8px);
+  }
+  100% {
+    clip-path: polygon(0 70%, 100% 70%, 100% 80%, 0 80%);
+    transform: translate(0);
+  }
+}
+
+@keyframes glitch-anim2-emergency {
+  0% {
+    clip-path: polygon(0 15%, 100% 15%, 100% 30%, 0 30%);
+    transform: translate(0);
+  }
+  25% {
+    clip-path: polygon(0 15%, 100% 15%, 100% 30%, 0 30%);
+    transform: translate(5px);
+  }
+  50% {
+    clip-path: polygon(0 75%, 100% 75%, 100% 100%, 0 100%);
+    transform: translate(-5px);
+  }
+  75% {
+    clip-path: polygon(0 30%, 100% 30%, 100% 50%, 0 50%);
+    transform: translate(5px);
+  }
+  100% {
+    clip-path: polygon(0 45%, 100% 45%, 100% 60%, 0 60%);
+    transform: translate(0);
   }
 } 

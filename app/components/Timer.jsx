@@ -12,6 +12,7 @@ export default function Timer() {
   const [showGlitch, setShowGlitch] = useState(false);
   const [noiseIntensity, setNoiseIntensity] = useState(1);
   const [activeTimer, setActiveTimer] = useState('normal'); // 'slow', 'normal', 'racing'
+  const [isLastMinute, setIsLastMinute] = useState(false);
   
   const timeRef = useRef(5 * 60 * 1000);
   const remainingTimeRef = useRef(null);
@@ -115,6 +116,23 @@ export default function Timer() {
     setMinutes(m);
     setSeconds(s);
     setMilliseconds(ms);
+    
+    // Check for last minute
+    if (isCountdownTimer && time <= 60000 && time > 0) {
+      setIsLastMinute(true);
+      // Increase noise and glitch effects in the last minute
+      setNoiseIntensity(1.5 + (60000 - time) / 30000); // Gradually increase noise as time runs out
+      
+      // Trigger glitches more frequently during last minute
+      if (Math.random() < 0.2) { // 20% chance every update
+        setShowGlitch(true);
+        setTimeout(() => {
+          setShowGlitch(false);
+        }, 100 + Math.random() * 150);
+      }
+    } else {
+      setIsLastMinute(false);
+    }
   };
   
   const update = () => {
@@ -146,6 +164,7 @@ export default function Timer() {
     resetAction();
     setShowGlitch(false);
     setNoiseIntensity(1);
+    setIsLastMinute(false);
   };
   
   const externalAction = () => {
@@ -153,6 +172,7 @@ export default function Timer() {
     resetAction();
     setShowGlitch(false);
     setNoiseIntensity(1);
+    setIsLastMinute(false);
   };
   
   const startAction = () => {
@@ -190,6 +210,7 @@ export default function Timer() {
     updateTimeText(remainingTimeRef.current);
     setShowGlitch(false);
     setNoiseIntensity(1);
+    setIsLastMinute(false);
   };
   
   // New time setup actions
@@ -232,13 +253,22 @@ export default function Timer() {
     update();
   };
   
-  // Generate CSS variable style for noise intensity
-  const noiseStyle = {
+  // Generate CSS variable style for noise intensity and emergency state
+  const timerStyle = {
     '--noise-intensity': noiseIntensity,
+    ...(isLastMinute ? { 
+      backgroundColor: 'red',
+    } : {})
   };
   
+  // Style for timer digits in emergency mode
+  const timerDigitStyle = isLastMinute ? { color: '#FF0000' } : {};
+  
+  // Border style for emergency mode
+  const borderStyle = isLastMinute ? { borderColor: '#FF0000' } : {};
+  
   return (
-    <div className="timer" style={noiseStyle}>
+    <div className={`timer ${isLastMinute ? 'emergency' : ''}`} style={timerStyle}>
       {/* Glitch effect overlays */}
       <div className={`screen-glitch ${showGlitch ? 'flicker' : ''}`}></div>
       <div className="scanlines"></div>
@@ -260,10 +290,10 @@ export default function Timer() {
       </div>
       <div className="time display-area">
         <span className="minute-second-area">
-          <span id="minute" className={showGlitch ? 'glitch' : ''} data-text={minutes}>{minutes}</span>:
-          <span id="second" className={showGlitch ? 'glitch' : ''} data-text={seconds}>{seconds}</span>
+          <span id="minute" className={showGlitch ? 'glitch' : ''} data-text={minutes} style={timerDigitStyle}>{minutes}</span>:
+          <span id="second" className={showGlitch ? 'glitch' : ''} data-text={seconds} style={timerDigitStyle}>{seconds}</span>
           <span className="millisecond-area">:
-            <span id="millisecond" className={showGlitch ? 'glitch' : ''} data-text={milliseconds}>{milliseconds}</span>
+            <span id="millisecond" className={showGlitch ? 'glitch' : ''} data-text={milliseconds} style={timerDigitStyle}>{milliseconds}</span>
           </span>
         </span>
       </div>
@@ -273,14 +303,14 @@ export default function Timer() {
           className={`energy-item ${!isCountdownTimer ? 'disabled' : ''}`}
           onClick={internalAction}
         >
-          <div className="power-system">
+          <div className="power-system" style={borderStyle}>
             <div>内部</div>
             <div className={showGlitch ? 'glitch' : ''} data-text="I N T E R N A L">I N T E R N A L</div>
             <div></div>
           </div>
         </button>
         <div className="energy-item">
-          <div className="power-supply">
+          <div className="power-supply" style={borderStyle}>
             <div>主電源供給システム</div>
             <div className={showGlitch ? 'glitch' : ''} data-text="MAIN ENERGY SUPPLY SYSTEM">MAIN ENERGY SUPPLY SYSTEM</div>
           </div>
@@ -290,7 +320,7 @@ export default function Timer() {
           className={`energy-item ${isCountdownTimer ? 'disabled' : ''}`}
           onClick={externalAction}
         >
-          <div className="power-system">
+          <div className="power-system" style={borderStyle}>
             <div>外部</div>
             <div className={showGlitch ? 'glitch' : ''} data-text="E X T E R N A L">E X T E R N A L</div>
             <div></div>
@@ -302,6 +332,7 @@ export default function Timer() {
           id="stop-button" 
           className={`${isRunning ? 'active-control' : ''} display-area`}
           onClick={toggleStartStopAction}
+          style={borderStyle}
         >
           <div className={showGlitch ? 'glitch' : ''} data-text={isRunning ? "S T O P" : "S T A R T"}>
             {isRunning ? "S T O P" : "S T A R T"}
@@ -312,6 +343,7 @@ export default function Timer() {
           id="slow-button" 
           className={`${isCountdownTimer && activeTimer === 'slow' ? 'active-control' : ''} display-area`}
           onClick={setSlowTimer}
+          style={borderStyle}
         >
           <div className={showGlitch ? 'glitch' : ''} data-text="S L O W">S L O W</div>
           <div></div>
@@ -320,6 +352,7 @@ export default function Timer() {
           id="normal-button" 
           className={`${isCountdownTimer && activeTimer === 'normal' ? 'active-control' : ''} display-area`}
           onClick={setNormalTimer}
+          style={borderStyle}
         >
           <div className={showGlitch ? 'glitch' : ''} data-text="N O R M A L">N O R M A L</div>
           <div></div>
@@ -328,6 +361,7 @@ export default function Timer() {
           id="racing-button" 
           className={`${isCountdownTimer && activeTimer === 'racing' ? 'active-control' : ''} display-area`}
           onClick={setRacingTimer}
+          style={borderStyle}
         >
           <div className={showGlitch ? 'glitch' : ''} data-text="R A C I N G">R A C I N G</div>
           <div></div>
