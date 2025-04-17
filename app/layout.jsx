@@ -25,6 +25,20 @@ export const metadata = {
     siteName: 'EVA POMODORO',
     images: [
       {
+        url: '/images/og-image.webp',
+        width: 1200,
+        height: 630,
+        alt: 'EVA POMODORO',
+        type: 'image/webp',
+      },
+      {
+        url: '/images/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'EVA POMODORO',
+        type: 'image/jpeg',
+      },
+      {
         url: '/screenshot.png',
         width: 1200,
         height: 630,
@@ -38,7 +52,14 @@ export const metadata = {
     card: 'summary_large_image',
     title: 'EVA POMODORO | Evangelion-inspired Productivity Timer',
     description: 'A pomodoro timer inspired by Evangelion anime series. Enhance your productivity with this unique countdown timer.',
-    images: ['/screenshot.png'],
+    images: [
+      {
+        url: '/images/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'EVA POMODORO',
+      }
+    ],
   },
   icons: {
     icon: [
