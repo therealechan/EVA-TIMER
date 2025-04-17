@@ -21,6 +21,20 @@ export default function Timer() {
   const noiseTimeoutRef = useRef(null);
   const maxMinutes = 100;
   
+  // 蓝色小点的位置数据
+  const blueDots = [
+    { top: '15%', left: '10%' },
+    { top: '25%', left: '18%' },
+    { top: '40%', left: '5%' },
+    { top: '65%', left: '12%' },
+    { top: '80%', left: '20%' },
+    { top: '20%', left: '85%' },
+    { top: '30%', left: '92%' },
+    { top: '50%', left: '88%' },
+    { top: '70%', left: '95%' },
+    { top: '85%', left: '80%' },
+  ];
+  
   const searchParams = useSearchParams();
   
   useEffect(() => {
@@ -134,6 +148,8 @@ export default function Timer() {
         setShowGlitch(true);
         // Increase noise when timer ends
         setNoiseIntensity(2);
+        // Stop the timer when it reaches zero
+        stopAction();
       }
       updateTimeText(remainingTimeRef.current);
     }, 10);
@@ -167,6 +183,15 @@ export default function Timer() {
     clearTimeout(timerIdRef.current);
     timerIdRef.current = null;
     setIsRunning(false);
+  };
+  
+  // Combined function to toggle between start and stop
+  const toggleStartStopAction = () => {
+    if (isRunning) {
+      stopAction();
+    } else {
+      startAction();
+    }
   };
   
   const resetAction = () => {
@@ -227,7 +252,16 @@ export default function Timer() {
   };
   
   return (
-    <div className="timer" style={noiseStyle}>
+    <div className={`timer ${!isRunning ? 'hide-dots' : ''}`} style={noiseStyle}>
+      {/* 蓝色小点 */}
+      {blueDots.map((dot, index) => (
+        <div
+          key={index}
+          className="blue-dot"
+          style={{ top: dot.top, left: dot.left }}
+        ></div>
+      ))}
+      
       {/* Glitch effect overlays */}
       <div className={`screen-glitch ${showGlitch ? 'flicker' : ''}`}></div>
       <div className="scanlines"></div>
@@ -290,9 +324,11 @@ export default function Timer() {
         <button 
           id="stop-button" 
           className={`${isRunning ? 'active-control' : ''} display-area`}
-          onClick={stopAction}
+          onClick={toggleStartStopAction}
         >
-          <div className={showGlitch ? 'glitch' : ''} data-text="S T O P">S T O P</div>
+          <div className={showGlitch ? 'glitch' : ''} data-text={isRunning ? "S T O P" : "S T A R T"}>
+            {isRunning ? "S T O P" : "S T A R T"}
+          </div>
           <div></div>
         </button>
         <button 

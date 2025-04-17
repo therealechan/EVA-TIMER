@@ -38,7 +38,7 @@
   z-index: 2;
   mix-blend-mode: overlay;
   opacity: 0;
-  background: rgba(255, 0, 0, 0.2);
+  background: rgba(255, 215, 0, 0.2);
 }
 
 /* CRT screen effect */
@@ -71,7 +71,7 @@
   background: linear-gradient(
     to bottom,
     transparent 50%,
-    rgba(255, 0, 0, 0.5) 51%
+    rgba(255, 215, 0, 0.5) 51%
   );
   background-size: 100% 4px;
   animation: scanline-scroll 10s linear infinite;
@@ -90,7 +90,7 @@
   background: linear-gradient(
     to right,
     transparent 50%,
-    rgba(255, 0, 0, 0.3) 51%
+    rgba(255, 215, 0, 0.3) 51%
   );
   background-size: 8px 100%;
 }
@@ -122,7 +122,7 @@
   animation: tv-static 0.1s steps(10) infinite;
   background-image: repeating-radial-gradient(
     circle at 17% 32%,
-    rgb(255, 0, 0, 0.5),
+    rgb(255, 215, 0, 0.5),
     rgba(0, 0, 0, 0.03) 0.5px
   );
 }

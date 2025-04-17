@@ -1,0 +1,21 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "pnpm build",
+  "installCommand": "pnpm install",
+  "outputDirectory": ".next",
+  /* 
+    For Pro/Enterprise plans:
+    "regions": ["all"],
+    
+    For free plans, you can specify a single region:
+    "regions": ["hnd1"], // Tokyo
+    Other options:
+    "regions": ["iad1"], // Washington DC
+    "regions": ["sfo1"], // San Francisco
+    "regions": ["sin1"], // Singapore
+  */
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ],
+  "cleanUrls": true
+} 
