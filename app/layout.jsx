@@ -77,7 +77,7 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="icon" href="/eva_pomodoro.svg" type="image/svg+xml" />
         <link rel="alternate icon" href="/favicon.ico" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
         {/* Schema.org structured data for better SEO */}
         <script
           type="application/ld+json"
@@ -102,6 +102,30 @@ export default function RootLayout({ children }) {
             })
           }}
         />
+        <style>
+          {`
+            /* Basic body styles */
+            html, body {
+              height: 100%;
+              width: 100%;
+              overflow: hidden;
+              background: #000;
+              margin: 0;
+              padding: 0;
+            }
+            
+            /* Remove unnecessary spacing */
+            * {
+              box-sizing: border-box;
+            }
+            
+            main {
+              margin: 0;
+              padding: 0;
+              overflow: hidden;
+            }
+          `}
+        </style>
       </head>
       <body>
         {children}

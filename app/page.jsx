@@ -8,11 +8,13 @@ export const metadata = {
 
 export default function HomePage() {
   return (
-    <main className="content-wrapper">
+    <main className="content-wrapper" style={{ margin: 0, padding: 0, overflow: 'hidden' }}>
       <h1 className="visually-hidden">EVA POMODORO - Evangelion-inspired Productivity Timer</h1>
-      <Suspense fallback={<div className="loading">Loading...</div>}>
-        <Timer />
-      </Suspense>
+      <div className="timer-container">
+        <Suspense fallback={<div className="loading">Loading...</div>}>
+          <Timer />
+        </Suspense>
+      </div>
       <footer className="eva-footer">
         <div className="footer-content">
           <a href="https://github.com/iPolyomino" target="_blank" rel="noopener noreferrer" className="footer-link">原作</a>

@@ -426,4 +426,9 @@
     clip-path: polygon(0 45%, 100% 45%, 100% 60%, 0 60%);
     transform: translate(0);
   }
+}
+
+/* 3D perspective container for timer */
+.timer {
+  transform-style: preserve-3d;
 } 
